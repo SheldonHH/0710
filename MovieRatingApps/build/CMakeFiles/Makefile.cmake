@@ -7,7 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/Users/mac/0710/matchOrder_Exchange/CMakeLists.txt"
+  "/Users/mac/0710/MovieRatingApps/CMakeLists.txt"
   "CMakeFiles/3.29.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.29.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.29.3/CMakeSystem.cmake"
@@ -24,9 +24,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Compiler/Clang.cmake"
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Compiler/GNU.cmake"
-  "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/FindBoost.cmake"
-  "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/FindPackageHandleStandardArgs.cmake"
-  "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/FindPackageMessage.cmake"
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Platform/Apple-AppleClang-C.cmake"
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Platform/Apple-AppleClang-CXX.cmake"
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Platform/Apple-Clang-C.cmake"
@@ -35,17 +32,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Platform/Darwin-Initialize.cmake"
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Platform/Darwin.cmake"
   "/opt/homebrew/Cellar/cmake/3.29.3/share/cmake/Modules/Platform/UnixPaths.cmake"
-  "/opt/homebrew/lib/cmake/Boost-1.85.0/BoostConfig.cmake"
-  "/opt/homebrew/lib/cmake/Boost-1.85.0/BoostConfigVersion.cmake"
-  "/opt/homebrew/lib/cmake/BoostDetectToolset-1.85.0.cmake"
-  "/opt/homebrew/lib/cmake/boost_headers-1.85.0/boost_headers-config-version.cmake"
-  "/opt/homebrew/lib/cmake/boost_headers-1.85.0/boost_headers-config.cmake"
-  "/opt/homebrew/lib/cmake/boost_system-1.85.0/boost_system-config-version.cmake"
-  "/opt/homebrew/lib/cmake/boost_system-1.85.0/boost_system-config.cmake"
-  "/opt/homebrew/lib/cmake/boost_system-1.85.0/libboost_system-variant-mt-shared.cmake"
-  "/opt/homebrew/lib/cmake/boost_system-1.85.0/libboost_system-variant-mt-static.cmake"
-  "/opt/homebrew/lib/cmake/boost_system-1.85.0/libboost_system-variant-shared.cmake"
-  "/opt/homebrew/lib/cmake/boost_system-1.85.0/libboost_system-variant-static.cmake"
   )
 
 # The corresponding makefile is:
@@ -61,6 +47,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/client.dir/DependInfo.cmake"
-  "CMakeFiles/server.dir/DependInfo.cmake"
+  "CMakeFiles/MovieRatingApp.dir/DependInfo.cmake"
   )

@@ -15,6 +15,21 @@
 #include <boost/asio.hpp>
 #include <nlohmann/json.hpp>
 
+/*
+你的代码中包含了消息队列的概念，尽管它们并不明确地表示为消息队列。ThreadPool 类的任务队列（tasks）就是一种消息队列的实现。
+通过将任务（即函数对象）添加到这个队列中，并由工作线程从队列中取出和执行，实际上实现了消息的排队和处理
+
+
+信号量semaphore的概念
+信号量通常用于控制对共享资源的访问，保证在某一时刻只有有限数量的线程能够访问该资源。以下是信号量的一些主要特点：
+
+计数器：信号量有一个计数器，用于跟踪可用资源的数量。
+P（wait）操作：减少计数器的值，如果计数器为0，则阻塞调用线程，直到资源可用。
+V（signal）操作：增加计数器的值，如果有被阻塞的线程，则唤醒其中一个线程。
+类似信号量的实现
+在你的 ThreadPool 类中，condition_variable 和 mutex 的组合实现了类似信号量的功能，用于同步对任务队列的访问。。
+*/
+
 using namespace std;
 using boost::asio::ip::tcp;
 using json = nlohmann::json;

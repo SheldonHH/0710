@@ -59,7 +59,8 @@ void send_order(tcp::socket& socket, const Order& order) {
     boost::asio::write(socket, boost::asio::buffer(message));
 }
 
-int main() {
+// 添加run_client函数
+void run_client(int num_orders, int delay) {
     try {
         boost::asio::io_context io_context;
         tcp::resolver resolver(io_context);
@@ -68,7 +69,7 @@ int main() {
         boost::asio::connect(socket, endpoints);
 
         int order_id = 1;
-        while (true) {
+        for (int i = 0; i < num_orders; ++i) {
             string trader_name = "Trader" + to_string(order_id);
             string order_type = (order_id % 2 == 0) ? "buy" : "sell";
             double price = 50000.0 + (order_id % 10) * 100;
@@ -78,11 +79,15 @@ int main() {
             send_order(socket, order);
 
             order_id++;
-            this_thread::sleep_for(chrono::milliseconds(5000)); // 模拟订单接收间隔
+            this_thread::sleep_for(chrono::milliseconds(delay)); // 使用参数指定的延迟时间
         }
     } catch (exception& e) {
         cerr << "Exception: " << e.what() << endl;
     }
-
-    return 0;
 }
+
+// 主函数，可以保留也可以移除
+// int main() {
+//     run_client(10, 5000); // 示例调用，可以根据需要调整
+//     return 0;
+// }
