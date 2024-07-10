@@ -1,0 +1,12 @@
+[package]
+name = "CanIWin_Rust_Call_CPP"
+version = "0.1.0"
+edition = "2018"
+
+
+[dependencies]
+solana-program = "2.0.1"
+cxx = "1.0.122"
+
+[build-dependencies]
+cxx-build = "1.0.122"

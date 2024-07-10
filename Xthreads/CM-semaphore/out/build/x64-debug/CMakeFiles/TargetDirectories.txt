@@ -1,0 +1,5 @@
+C:/Users/xphua/0705/Xthreads/CM-semaphore/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/xphua/0705/Xthreads/CM-semaphore/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/xphua/0705/Xthreads/CM-semaphore/out/build/x64-debug/CM-semaphore/CMakeFiles/CM-semaphore.dir
+C:/Users/xphua/0705/Xthreads/CM-semaphore/out/build/x64-debug/CM-semaphore/CMakeFiles/edit_cache.dir
+C:/Users/xphua/0705/Xthreads/CM-semaphore/out/build/x64-debug/CM-semaphore/CMakeFiles/rebuild_cache.dir

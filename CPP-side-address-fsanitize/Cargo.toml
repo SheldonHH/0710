@@ -1,0 +1,25 @@
+[package]
+name = "cpp_memory_relation"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+cxx = "1.0.122"
+
+[build-dependencies]
+cxx-build = "1.0.122"
+
+[profile.dev]
+debug = true
+overflow-checks = true
+opt-level = 0
+
+[profile.release]
+debug = true
+overflow-checks = true
+opt-level = 3
+
+
+[[bin]]
+name = "cpp_memory_relation"
+path = "src/main.cpp"

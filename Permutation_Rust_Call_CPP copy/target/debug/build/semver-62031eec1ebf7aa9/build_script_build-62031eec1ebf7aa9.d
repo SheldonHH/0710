@@ -1,0 +1,5 @@
+/Users/mac/trading-programming/0705/Permutation_Rust_Call_CPP/target/debug/build/semver-62031eec1ebf7aa9/build_script_build-62031eec1ebf7aa9: /Users/mac/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.23/build.rs
+
+/Users/mac/trading-programming/0705/Permutation_Rust_Call_CPP/target/debug/build/semver-62031eec1ebf7aa9/build_script_build-62031eec1ebf7aa9.d: /Users/mac/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.23/build.rs
+
+/Users/mac/.cargo/registry/src/index.crates.io-6f17d22bba15001f/semver-1.0.23/build.rs:

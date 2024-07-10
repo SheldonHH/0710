@@ -1,0 +1,3 @@
+C:/Users/xphua/0705/basic/satcom/out/build/x64-Debug/CMakeFiles/satcom.dir
+C:/Users/xphua/0705/basic/satcom/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/xphua/0705/basic/satcom/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
