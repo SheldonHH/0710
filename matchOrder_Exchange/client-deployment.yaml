@@ -17,4 +17,4 @@ spec:
         image: sheldonhh/me-client
         env:
         - name: SERVER_ADDRESS
-          value: "server-service.default.svc.cluster.local"
+          value: "server-service.default.svc.cluster.local:12345"

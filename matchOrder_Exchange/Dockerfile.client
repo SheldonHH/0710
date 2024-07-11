@@ -4,7 +4,8 @@ FROM gcc:latest
 WORKDIR /app
 
 # 拷贝客户端代码
-COPY client.cpp .
+COPY clientkb.cpp .
+COPY start_client.sh .
 
 # 安装依赖
 RUN apt-get update && apt-get install -y \
@@ -16,6 +17,10 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/nlohmann/json.git && cd json && mkdir build && cd build && cmake .. && make install
 
 # 编译客户端代码
-RUN g++ -o client client.cpp -lboost_system -lpthread
+RUN g++ -o client clientkb.cpp -lboost_system -lpthread
 
-CMD ["./client"]
+# 赋予启动脚本可执行权限
+RUN chmod +x start_client.sh
+
+# 使用启动脚本启动服务器
+CMD ["./start_client.sh"]

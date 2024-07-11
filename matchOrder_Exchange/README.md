@@ -42,24 +42,27 @@ docker push sheldonhh/me-server
 ```
 
 
-# windows k8s
-使用 Scoop 安装 kubectl：
-
-powershell
-Copy code
-scoop install kubectl
-验证安装：
-
-powershell
-Copy code
-kubectl version --client
 
 ```bash
+
+kubectl delete pods --all
+kubectl delete deployments --all
 # 部署服务器
 kubectl apply -f server-deployment.yaml
 
 # 部署客户端
 kubectl apply -f client-deployment.yaml
+```
+## 删除全部
+```bash
+kubectl delete pods --all
+kubectl delete deployments --all
+```
+
+```bash
+# 进入检查网络
+kubectl run -it --rm debug --image=busybox --restart=Never -- sh
+
 ```
 
 5. 验证部署
@@ -75,28 +78,62 @@ kubectl get deployments
 kubectl get services
 ```
 
+
+
 ```bash
-PS C:\Users\xphua\0710\matchOrder_Exchange> kubectl get deployments
->>
-NAME                READY   UP-TO-DATE   AVAILABLE   AGE
-client-deployment   0/100   100          0           62s
-server-deployment   0/3     3            0           62s
-PS C:\Users\xphua\0710\matchOrder_Exchange> kubectl get services
->>
-NAME             TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-kubernetes       ClusterIP      10.96.0.1        <none>        443/TCP        5m41s
-server-service   LoadBalancer   10.104.136.174   <pending>     80:31784/TCP   69s
+minikube stop
+minikube start --cpus 4 --memory 3000
+```
+
+
+## GUI
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+```
+
+# 我是mac
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dashboard-adminuser
+  namespace: kubernetes-dashboard
+EOF
+
+# serviceaccount/dashboard-adminuser created
+
+cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dashboard-adminuser
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: dashboard-adminuser
+  namespace: kubernetes-dashboard
+EOF
+
+kubectl -n kubernetes-dashboard create token dashboard-adminuser
+
+# eyJhbGciOiJSUzI1NiIsImtpZCI6InltRWFHVTY3X3dtcXk2b0w5Si11M0liWTJ2ZzVKVFFwLTUweUJsNVBHUEUifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzIwNjczMjUxLCJpYXQiOjE3MjA2Njk2NTEsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwianRpIjoiMDNlM2YzMmMtOTdjYS00M2NjLTllODMtMWU1ZGYxOGU3MDMxIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJkYXNoYm9hcmQtYWRtaW51c2VyIiwidWlkIjoiOTlhZDlmMjktZjRlYi00ODU3LThlMGUtODRjZjk5MGM2ZDE5In19LCJuYmYiOjE3MjA2Njk2NTEsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDpkYXNoYm9hcmQtYWRtaW51c2VyIn0.bk-Q-h24soJo5I2Vv3PUV_3Y960dJSGR1qKQYwZihwdJAg_fV4OhVNH17csC8sN9eSSASlI51ByP0nHVMCidfAgEdQY-0iRvPVwSIYPXywbOUuYOdNS8oRWdI5xP2V5kedyqNDLyhYJ-00ra5ZxY3MTWOJuezNHHM7neYeajPN4dOfYo_E0dWSE67XKDucd_wiU9kgOVHeS1fdAMrk3ZjIGEhv7hvJeelXZkJ3aeqTg4RxLc3Z5bXM_I4XWVKtPHOOtneyqOTfNN21UvxiiKOkeLwM8cAcsmTtOMQtg9LnbHYQ7UZnbBF1CTaWOJ1TDE8t9khjSbCBaobg7fHYVZ6w
+
+kubectl proxy
 ```
 
 ```bash
 
-C:\Users\xphua\0710>kubectl create clusterrolebinding dashboard-admin-sa --clusterrole=cluster-admin --serviceaccount=default:dashboard-admin-sa
-clusterrolebinding.rbac.authorization.k8s.io/dashboard-admin-sa created
 
-C:\Users\xphua\0710>
-C:\Users\xphua\0710>kubectl get secrets
-No resources found in default namespace.
 ```
+
+
+
+
+
 
 
 
