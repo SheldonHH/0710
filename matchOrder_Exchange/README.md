@@ -4,6 +4,13 @@ brew install googletest
 ```
 
 
+
+```bash
+find / -name "mysql_driver.h"
+find / -name "libmysqlcppconn*"
+
+```
+
 ```bash
 brew install nlohmann-json
 brew install boost
