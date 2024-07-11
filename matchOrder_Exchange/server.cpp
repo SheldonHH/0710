@@ -15,21 +15,6 @@
 #include <boost/asio.hpp>
 #include <nlohmann/json.hpp>
 
-/*
-你的代码中包含了消息队列的概念，尽管它们并不明确地表示为消息队列。ThreadPool 类的任务队列（tasks）就是一种消息队列的实现。
-通过将任务（即函数对象）添加到这个队列中，并由工作线程从队列中取出和执行，实际上实现了消息的排队和处理
-
-
-信号量semaphore的概念
-信号量通常用于控制对共享资源的访问，保证在某一时刻只有有限数量的线程能够访问该资源。以下是信号量的一些主要特点：
-
-计数器：信号量有一个计数器，用于跟踪可用资源的数量。
-P（wait）操作：减少计数器的值，如果计数器为0，则阻塞调用线程，直到资源可用。
-V（signal）操作：增加计数器的值，如果有被阻塞的线程，则唤醒其中一个线程。
-类似信号量的实现
-在你的 ThreadPool 类中，condition_variable 和 mutex 的组合实现了类似信号量的功能，用于同步对任务队列的访问。。
-*/
-
 using namespace std;
 using boost::asio::ip::tcp;
 using json = nlohmann::json;
@@ -43,40 +28,26 @@ struct Order {
     int volume;
     string timestamp;
     string uuid;
+    string mac_address;
+    string client_uuid;
 
     Order() = default;
 
-    Order(int id, const string& name, const string& type, double p, int vol)
-        : order_id(id), trader_name(name), order_type(type), price(p), volume(vol) {
+    Order(int id, const string& name, const string& type, double p, int vol, const string& uuid, const string& mac, const string& client_uuid)
+        : order_id(id), trader_name(name), order_type(type), price(p), volume(vol), uuid(uuid), mac_address(mac), client_uuid(client_uuid) {
         // 生成时间戳
         auto now = chrono::system_clock::now();
         auto in_time_t = chrono::system_clock::to_time_t(now);
         stringstream ss;
         ss << put_time(localtime(&in_time_t), "%Y-%m-%d %X");
         timestamp = ss.str();
-
-        // 生成UUID
-        random_device rd;
-        mt19937 gen(rd());
-        uniform_int_distribution<int> dis(0, 15);
-        stringstream uuid_ss;
-        uuid_ss << hex << uppercase;
-        for (int i = 0; i < 8; i++) uuid_ss << dis(gen);
-        uuid_ss << "-";
-        for (int i = 0; i < 4; i++) uuid_ss << dis(gen);
-        uuid_ss << "-4";
-        for (int i = 0; i < 3; i++) uuid_ss << dis(gen);
-        uuid_ss << "-";
-        uuid_ss << dis(gen) << dis(gen) << dis(gen);
-        uuid_ss << "-";
-        for (int i = 0; i < 12; i++) uuid_ss << dis(gen);
-        uuid = uuid_ss.str();
     }
 
     // 将订单转换为JSON
     json to_json() const {
         return json{{"order_id", order_id}, {"trader_name", trader_name}, {"order_type", order_type}, 
-                    {"price", price}, {"volume", volume}, {"timestamp", timestamp}, {"uuid", uuid}};
+                    {"price", price}, {"volume", volume}, {"timestamp", timestamp}, {"uuid", uuid}, 
+                    {"mac_address", mac_address}, {"client_uuid", client_uuid}};
     }
 
     // 从JSON转换为订单
@@ -89,6 +60,8 @@ struct Order {
         order.volume = j.at("volume").get<int>();
         order.timestamp = j.at("timestamp").get<string>();
         order.uuid = j.at("uuid").get<string>();
+        order.mac_address = j.at("mac_address").get<string>();
+        order.client_uuid = j.at("client_uuid").get<string>();
         return order;
     }
 };
@@ -164,8 +137,8 @@ public:
     Exchange(size_t num_threads) : thread_pool(num_threads) {}
 
     // 接收订单并将其提交到线程池处理
-    void receiveOrder(const Order& order) {
-        thread_pool.enqueue(&Exchange::processOrder, this, order);
+    void receiveOrder(const Order& order, const string& client_ip) {
+        thread_pool.enqueue(&Exchange::processOrder, this, order, client_ip);
     }
 
 private:
@@ -205,12 +178,15 @@ private:
     }
 
     // 处理订单的方法
-    void processOrder(Order order) {
+    void processOrder(Order order, const string& client_ip) {
         {
             lock_guard<mutex> lock(order_book_mutex);
             cout << "Received Order: " << order.order_id << " from " << order.trader_name 
                  << " (" << order.order_type << ") for volume " << order.volume << " at price " << order.price 
-                 << " with timestamp " << order.timestamp  << endl;
+                 << " with timestamp " << order.timestamp 
+                 << ", Client UUID: " << order.client_uuid.substr(order.client_uuid.size() - 5)
+                 << ", Client MAC: " << order.mac_address
+                 << ", Client IP: " << client_ip << endl;
 
             if (order.order_type == "buy") {
                 buy_orders.push_back(order);
@@ -228,7 +204,6 @@ private:
         matchOrders();
     }
 };
-
 
 // 订单处理类，处理单个客户端的订单请求
 class OrderHandler : public enable_shared_from_this<OrderHandler> {
@@ -250,7 +225,8 @@ private:
                     json j;
                     ss >> j;
                     Order order = Order::from_json(j);
-                    exchange_.receiveOrder(order);
+                    string client_ip = socket_.remote_endpoint().address().to_string();
+                    exchange_.receiveOrder(order, client_ip);
                     data_.erase(0, length);
                     do_read();
                 }

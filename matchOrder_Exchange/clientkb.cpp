@@ -22,9 +22,10 @@ struct Order {
     string timestamp;
     string uuid;
     string mac_address;
+    string client_uuid;
 
-    Order(int id, const string& name, const string& type, double p, int vol, const string& mac)
-        : order_id(id), trader_name(name), order_type(type), price(p), volume(vol), mac_address(mac) {
+    Order(int id, const string& name, const string& type, double p, int vol, const string& mac, const string& client_uuid)
+        : order_id(id), trader_name(name), order_type(type), price(p), volume(vol), mac_address(mac), client_uuid(client_uuid) {
         // 生成时间戳
         auto now = chrono::system_clock::now();
         auto in_time_t = chrono::system_clock::to_time_t(now);
@@ -52,7 +53,8 @@ struct Order {
 
     json to_json() const {
         return json{{"order_id", order_id}, {"trader_name", trader_name}, {"order_type", order_type}, 
-                    {"price", price}, {"volume", volume}, {"timestamp", timestamp}, {"uuid", uuid}, {"mac_address", mac_address}};
+                    {"price", price}, {"volume", volume}, {"timestamp", timestamp}, {"uuid", uuid}, 
+                    {"mac_address", mac_address}, {"client_uuid", client_uuid}};
     }
 };
 
@@ -143,18 +145,18 @@ tcp::socket connect_to_server(boost::asio::io_context& io_context, const string&
     return socket;
 }
 
-Order create_order(int order_id, const string& mac_address) {
+Order create_order(int order_id, const string& mac_address, const string& client_uuid) {
     string trader_name = "Trader" + to_string(order_id);
     string order_type = (order_id % 2 == 0) ? "buy" : "sell";
     double price = 50000.0 + (order_id % 10) * 100;
     int volume = 1 + (order_id % 5);
-    return Order(order_id, trader_name, order_type, price, volume, mac_address);
+    return Order(order_id, trader_name, order_type, price, volume, mac_address, client_uuid);
 }
 
-void process_orders(tcp::socket& socket, const string& mac_address) {
+void process_orders(tcp::socket& socket, const string& mac_address, const string& client_uuid) {
     int order_id = 1;
     while (true) {
-        Order order = create_order(order_id, mac_address);
+        Order order = create_order(order_id, mac_address, client_uuid);
         send_order(socket, order);
         order_id++;
         this_thread::sleep_for(chrono::milliseconds(5000)); // 模拟订单接收间隔
@@ -182,7 +184,7 @@ int main() {
         boost::asio::io_context io_context;
         tcp::socket socket = connect_to_server(io_context, server_host, server_port);
 
-        process_orders(socket, mac_address);
+        process_orders(socket, mac_address, client_uuid);
     } catch (exception& e) {
         cerr << "Exception: " << e.what() << endl;
     }
