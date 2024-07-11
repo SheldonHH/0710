@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #buyOrders, #sellOrders {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+        h2 {
+            text-align: center;
+        }
+        #prices {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h2>Order Book</h2>
+    <div id="prices">
+        <h3>Real-time Prices</h3>
+        <ul id="priceList"></ul>
+    </div>
+    <div id="sellOrders">
+        <h3>Sell Orders</h3>
+        <ul id="sellOrderList"></ul>
+    </div>
+    <div id="buyOrders">
+        <h3>Buy Orders</h3>
+        <ul id="buyOrderList"></ul>
+    </div>
+
+    <script>
+        const ws = new WebSocket('ws://127.0.0.1:12346');
+        const buyOrders = new Map();
+        const sellOrders = new Map();
+
+        ws.onopen = function() {
+            console.log('WebSocket connection established');
+        };
+
+        ws.onmessage = function(event) {
+            console.log('Message received:', event.data);
+            try {
+                const order = JSON.parse(event.data);
+                console.log('Parsed order:', order);
+
+                // Validate the structure of the order
+                if (!order || typeof order !== 'object' || !order.order_type || !order.order_id) {
+                    console.error('Invalid order data received:', event.data);
+                    return;
+                }
+
+                // Update the order maps
+                if (order.order_type === 'buy') {
+                    if (!buyOrders.has(order.price)) {
+                        buyOrders.set(order.price, []);
+                    }
+                    buyOrders.get(order.price).push(order);
+                } else if (order.order_type === 'sell') {
+                    if (!sellOrders.has(order.price)) {
+                        sellOrders.set(order.price, []);
+                    }
+                    sellOrders.get(order.price).push(order);
+                }
+
+                // Display real-time prices
+                const priceElement = document.createElement('li');
+                priceElement.textContent = `Price: ${order.price}, Timestamp: ${order.timestamp}`;
+                document.getElementById('priceList').appendChild(priceElement);
+
+                // Update the displayed orders
+                updateOrderLists();
+            } catch (error) {
+                console.error('Error processing message:', error, 'Message:', event.data);
+            }
+        };
+
+        function updateOrderLists() {
+            const buyOrderList = document.getElementById('buyOrderList');
+            const sellOrderList = document.getElementById('sellOrderList');
+
+            buyOrderList.innerHTML = '';
+            sellOrderList.innerHTML = '';
+
+            // Sort buy orders in ascending order by price
+            const sortedBuyOrders = Array.from(buyOrders.keys()).sort((a, b) => a - b);
+            for (const price of sortedBuyOrders) {
+                for (const order of buyOrders.get(price)) {
+                    const orderElement = document.createElement('li');
+                    orderElement.textContent = `Order ID: ${order.order_id}, Trader: ${order.trader_name}, Price: ${order.price}, Volume: ${order.volume}, Timestamp: ${order.timestamp}`;
+                    buyOrderList.appendChild(orderElement);
+                }
+            }
+
+            // Sort sell orders in descending order by price
+            const sortedSellOrders = Array.from(sellOrders.keys()).sort((a, b) => b - a);
+            for (const price of sortedSellOrders) {
+                for (const order of sellOrders.get(price)) {
+                    const orderElement = document.createElement('li');
+                    orderElement.textContent = `Order ID: ${order.order_id}, Trader: ${order.trader_name}, Price: ${order.price}, Volume: ${order.volume}, Timestamp: ${order.timestamp}`;
+                    sellOrderList.appendChild(orderElement);
+                }
+            }
+        }
+
+        ws.onclose = function() {
+            console.log('WebSocket connection closed');
+        };
+
+        ws.onerror = function(error) {
+            console.log('WebSocket error:', error);
+        };
+    </script>
+</body>
+</html>

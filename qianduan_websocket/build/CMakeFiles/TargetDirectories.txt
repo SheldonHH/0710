@@ -1,0 +1,4 @@
+/Users/mac/0710/qianduan_websocket/build/CMakeFiles/client.dir
+/Users/mac/0710/qianduan_websocket/build/CMakeFiles/server.dir
+/Users/mac/0710/qianduan_websocket/build/CMakeFiles/edit_cache.dir
+/Users/mac/0710/qianduan_websocket/build/CMakeFiles/rebuild_cache.dir
