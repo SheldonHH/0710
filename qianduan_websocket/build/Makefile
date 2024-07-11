@@ -142,6 +142,117 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
+#=============================================================================
+# Target rules for targets named batch_clients_single
+
+# Build rule for target.
+batch_clients_single: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 batch_clients_single
+.PHONY : batch_clients_single
+
+# fast build rule for target.
+batch_clients_single/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_single.dir/build.make CMakeFiles/batch_clients_single.dir/build
+.PHONY : batch_clients_single/fast
+
+#=============================================================================
+# Target rules for targets named batch_clients_future_async
+
+# Build rule for target.
+batch_clients_future_async: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 batch_clients_future_async
+.PHONY : batch_clients_future_async
+
+# fast build rule for target.
+batch_clients_future_async/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_future_async.dir/build.make CMakeFiles/batch_clients_future_async.dir/build
+.PHONY : batch_clients_future_async/fast
+
+#=============================================================================
+# Target rules for targets named batch_clients_threadPool
+
+# Build rule for target.
+batch_clients_threadPool: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 batch_clients_threadPool
+.PHONY : batch_clients_threadPool
+
+# fast build rule for target.
+batch_clients_threadPool/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_threadPool.dir/build.make CMakeFiles/batch_clients_threadPool.dir/build
+.PHONY : batch_clients_threadPool/fast
+
+batch_tests/batch_clients_future_async.o: batch_tests/batch_clients_future_async.cpp.o
+.PHONY : batch_tests/batch_clients_future_async.o
+
+# target to build an object file
+batch_tests/batch_clients_future_async.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_future_async.dir/build.make CMakeFiles/batch_clients_future_async.dir/batch_tests/batch_clients_future_async.cpp.o
+.PHONY : batch_tests/batch_clients_future_async.cpp.o
+
+batch_tests/batch_clients_future_async.i: batch_tests/batch_clients_future_async.cpp.i
+.PHONY : batch_tests/batch_clients_future_async.i
+
+# target to preprocess a source file
+batch_tests/batch_clients_future_async.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_future_async.dir/build.make CMakeFiles/batch_clients_future_async.dir/batch_tests/batch_clients_future_async.cpp.i
+.PHONY : batch_tests/batch_clients_future_async.cpp.i
+
+batch_tests/batch_clients_future_async.s: batch_tests/batch_clients_future_async.cpp.s
+.PHONY : batch_tests/batch_clients_future_async.s
+
+# target to generate assembly for a file
+batch_tests/batch_clients_future_async.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_future_async.dir/build.make CMakeFiles/batch_clients_future_async.dir/batch_tests/batch_clients_future_async.cpp.s
+.PHONY : batch_tests/batch_clients_future_async.cpp.s
+
+batch_tests/batch_clients_single.o: batch_tests/batch_clients_single.cpp.o
+.PHONY : batch_tests/batch_clients_single.o
+
+# target to build an object file
+batch_tests/batch_clients_single.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_single.dir/build.make CMakeFiles/batch_clients_single.dir/batch_tests/batch_clients_single.cpp.o
+.PHONY : batch_tests/batch_clients_single.cpp.o
+
+batch_tests/batch_clients_single.i: batch_tests/batch_clients_single.cpp.i
+.PHONY : batch_tests/batch_clients_single.i
+
+# target to preprocess a source file
+batch_tests/batch_clients_single.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_single.dir/build.make CMakeFiles/batch_clients_single.dir/batch_tests/batch_clients_single.cpp.i
+.PHONY : batch_tests/batch_clients_single.cpp.i
+
+batch_tests/batch_clients_single.s: batch_tests/batch_clients_single.cpp.s
+.PHONY : batch_tests/batch_clients_single.s
+
+# target to generate assembly for a file
+batch_tests/batch_clients_single.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_single.dir/build.make CMakeFiles/batch_clients_single.dir/batch_tests/batch_clients_single.cpp.s
+.PHONY : batch_tests/batch_clients_single.cpp.s
+
+batch_tests/batch_clients_threadPool.o: batch_tests/batch_clients_threadPool.cpp.o
+.PHONY : batch_tests/batch_clients_threadPool.o
+
+# target to build an object file
+batch_tests/batch_clients_threadPool.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_threadPool.dir/build.make CMakeFiles/batch_clients_threadPool.dir/batch_tests/batch_clients_threadPool.cpp.o
+.PHONY : batch_tests/batch_clients_threadPool.cpp.o
+
+batch_tests/batch_clients_threadPool.i: batch_tests/batch_clients_threadPool.cpp.i
+.PHONY : batch_tests/batch_clients_threadPool.i
+
+# target to preprocess a source file
+batch_tests/batch_clients_threadPool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_threadPool.dir/build.make CMakeFiles/batch_clients_threadPool.dir/batch_tests/batch_clients_threadPool.cpp.i
+.PHONY : batch_tests/batch_clients_threadPool.cpp.i
+
+batch_tests/batch_clients_threadPool.s: batch_tests/batch_clients_threadPool.cpp.s
+.PHONY : batch_tests/batch_clients_threadPool.s
+
+# target to generate assembly for a file
+batch_tests/batch_clients_threadPool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_threadPool.dir/build.make CMakeFiles/batch_clients_threadPool.dir/batch_tests/batch_clients_threadPool.cpp.s
+.PHONY : batch_tests/batch_clients_threadPool.cpp.s
+
 client.o: client.cpp.o
 .PHONY : client.o
 
@@ -198,8 +309,20 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... batch_clients_future_async"
+	@echo "... batch_clients_single"
+	@echo "... batch_clients_threadPool"
 	@echo "... client"
 	@echo "... server"
+	@echo "... batch_tests/batch_clients_future_async.o"
+	@echo "... batch_tests/batch_clients_future_async.i"
+	@echo "... batch_tests/batch_clients_future_async.s"
+	@echo "... batch_tests/batch_clients_single.o"
+	@echo "... batch_tests/batch_clients_single.i"
+	@echo "... batch_tests/batch_clients_single.s"
+	@echo "... batch_tests/batch_clients_threadPool.o"
+	@echo "... batch_tests/batch_clients_threadPool.i"
+	@echo "... batch_tests/batch_clients_threadPool.s"
 	@echo "... client.o"
 	@echo "... client.i"
 	@echo "... client.s"

@@ -26,6 +26,10 @@ endif()
 # 添加可执行文件
 add_executable(client client.cpp)
 add_executable(server server.cpp)
+add_executable(batch_clients_single batch_tests/batch_clients_single.cpp)
+add_executable(batch_clients_future_async batch_tests/batch_clients_future_async.cpp)
+add_executable(batch_clients_threadPool batch_tests/batch_clients_threadPool.cpp)
+
 
 # 链接Boost库
 target_link_libraries(client Boost::system)

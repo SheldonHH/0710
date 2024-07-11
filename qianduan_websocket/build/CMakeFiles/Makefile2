@@ -65,6 +65,9 @@ CMAKE_BINARY_DIR = /Users/mac/0710/qianduan_websocket/build
 # The main recursive "all" target.
 all: CMakeFiles/client.dir/all
 all: CMakeFiles/server.dir/all
+all: CMakeFiles/batch_clients_single.dir/all
+all: CMakeFiles/batch_clients_future_async.dir/all
+all: CMakeFiles/batch_clients_threadPool.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -74,6 +77,9 @@ preinstall:
 # The main recursive "clean" target.
 clean: CMakeFiles/client.dir/clean
 clean: CMakeFiles/server.dir/clean
+clean: CMakeFiles/batch_clients_single.dir/clean
+clean: CMakeFiles/batch_clients_future_async.dir/clean
+clean: CMakeFiles/batch_clients_threadPool.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -83,7 +89,7 @@ clean: CMakeFiles/server.dir/clean
 CMakeFiles/client.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/client.dir/build.make CMakeFiles/client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/mac/0710/qianduan_websocket/build/CMakeFiles --progress-num=1,2 "Built target client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/mac/0710/qianduan_websocket/build/CMakeFiles --progress-num=7,8 "Built target client"
 .PHONY : CMakeFiles/client.dir/all
 
 # Build rule for subdir invocation for target.
@@ -109,7 +115,7 @@ CMakeFiles/client.dir/clean:
 CMakeFiles/server.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/mac/0710/qianduan_websocket/build/CMakeFiles --progress-num=3,4 "Built target server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/mac/0710/qianduan_websocket/build/CMakeFiles --progress-num=9,10 "Built target server"
 .PHONY : CMakeFiles/server.dir/all
 
 # Build rule for subdir invocation for target.
@@ -127,6 +133,84 @@ server: CMakeFiles/server.dir/rule
 CMakeFiles/server.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/clean
 .PHONY : CMakeFiles/server.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/batch_clients_single.dir
+
+# All Build rule for target.
+CMakeFiles/batch_clients_single.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_single.dir/build.make CMakeFiles/batch_clients_single.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_single.dir/build.make CMakeFiles/batch_clients_single.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/mac/0710/qianduan_websocket/build/CMakeFiles --progress-num=3,4 "Built target batch_clients_single"
+.PHONY : CMakeFiles/batch_clients_single.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/batch_clients_single.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/mac/0710/qianduan_websocket/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/batch_clients_single.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/mac/0710/qianduan_websocket/build/CMakeFiles 0
+.PHONY : CMakeFiles/batch_clients_single.dir/rule
+
+# Convenience name for target.
+batch_clients_single: CMakeFiles/batch_clients_single.dir/rule
+.PHONY : batch_clients_single
+
+# clean rule for target.
+CMakeFiles/batch_clients_single.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_single.dir/build.make CMakeFiles/batch_clients_single.dir/clean
+.PHONY : CMakeFiles/batch_clients_single.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/batch_clients_future_async.dir
+
+# All Build rule for target.
+CMakeFiles/batch_clients_future_async.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_future_async.dir/build.make CMakeFiles/batch_clients_future_async.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_future_async.dir/build.make CMakeFiles/batch_clients_future_async.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/mac/0710/qianduan_websocket/build/CMakeFiles --progress-num=1,2 "Built target batch_clients_future_async"
+.PHONY : CMakeFiles/batch_clients_future_async.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/batch_clients_future_async.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/mac/0710/qianduan_websocket/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/batch_clients_future_async.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/mac/0710/qianduan_websocket/build/CMakeFiles 0
+.PHONY : CMakeFiles/batch_clients_future_async.dir/rule
+
+# Convenience name for target.
+batch_clients_future_async: CMakeFiles/batch_clients_future_async.dir/rule
+.PHONY : batch_clients_future_async
+
+# clean rule for target.
+CMakeFiles/batch_clients_future_async.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_future_async.dir/build.make CMakeFiles/batch_clients_future_async.dir/clean
+.PHONY : CMakeFiles/batch_clients_future_async.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/batch_clients_threadPool.dir
+
+# All Build rule for target.
+CMakeFiles/batch_clients_threadPool.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_threadPool.dir/build.make CMakeFiles/batch_clients_threadPool.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_threadPool.dir/build.make CMakeFiles/batch_clients_threadPool.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/mac/0710/qianduan_websocket/build/CMakeFiles --progress-num=5,6 "Built target batch_clients_threadPool"
+.PHONY : CMakeFiles/batch_clients_threadPool.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/batch_clients_threadPool.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/mac/0710/qianduan_websocket/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/batch_clients_threadPool.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/mac/0710/qianduan_websocket/build/CMakeFiles 0
+.PHONY : CMakeFiles/batch_clients_threadPool.dir/rule
+
+# Convenience name for target.
+batch_clients_threadPool: CMakeFiles/batch_clients_threadPool.dir/rule
+.PHONY : batch_clients_threadPool
+
+# clean rule for target.
+CMakeFiles/batch_clients_threadPool.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/batch_clients_threadPool.dir/build.make CMakeFiles/batch_clients_threadPool.dir/clean
+.PHONY : CMakeFiles/batch_clients_threadPool.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

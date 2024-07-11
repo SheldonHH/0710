@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        #left-panel {
+            flex: 3;
+        }
+        #right-panel {
+            flex: 1;
+            margin-left: 20px;
+        }
+        #buyOrders, #sellOrders, #prices, #volumes {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+        h2 {
+            text-align: center;
+        }
+        #chart-container {
+            width: 100%;
+            height: 600px;
+            margin: 20px auto;
+        }
+        #timeframe-select {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="left-panel">
+        <div id="chart-container"></div>
+        <div id="timeframe-select">
+            <label for="timeframe">Select Timeframe: </label>
+            <select id="timeframe">
+                <option value="1">1 Minute</option>
+                <option value="5">5 Minutes</option>
+                <option value="15">15 Minutes</option>
+                <option value="30">30 Minutes</option>
+                <option value="60">1 Hour</option>
+                <option value="D">1 Day</option>
+                <option value="M">1 Month</option>
+            </select>
+        </div>
+    </div>
+    <div id="right-panel">
+        <div id="prices">
+            <h3>Real-time Prices</h3>
+            <ul id="priceList"></ul>
+        </div>
+        <div id="buyOrders">
+            <h3>Buy Orders</h3>
+            <ul id="buyOrderList"></ul>
+        </div>
+        <div id="sellOrders">
+            <h3>Sell Orders</h3>
+            <ul id="sellOrderList"></ul>
+        </div>
+        <div id="volumes">
+            <h3>Volumes</h3>
+            <ul id="volumeList"></ul>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script>
+        const ws = new WebSocket('ws://127.0.0.1:12346');
+        const buyOrders = [];
+        const sellOrders = [];
+        const chartData = [];
+        const volumeData = [];
+        const aggregatedVolumes = {};
+
+        ws.onopen = function() {
+            console.log('WebSocket connection established');
+        };
+
+        ws.onmessage = function(event) {
+            console.log('Message received:', event.data);
+            try {
+                const order = JSON.parse(event.data);
+                console.log('Parsed order:', order);
+
+                // Validate the structure of the order
+                if (!order || typeof order !== 'object' || !order.order_type || !order.order_id) {
+                    console.error('Invalid order data received:', event.data);
+                    return;
+                }
+
+                // Update the order lists
+                if (order.order_type === 'buy') {
+                    buyOrders.push(order);
+                    if (buyOrders.length > 10) {
+                        buyOrders.shift();
+                    }
+                } else if (order.order_type === 'sell') {
+                    sellOrders.push(order);
+                    if (sellOrders.length > 10) {
+                        sellOrders.shift();
+                    }
+                }
+
+                // Display the latest real-time price
+                const priceList = document.getElementById('priceList');
+                priceList.innerHTML = '';
+                const priceElement = document.createElement('li');
+                priceElement.textContent = `Price: ${order.price}`;
+                priceList.appendChild(priceElement);
+
+                // Update the displayed orders
+                updateOrderLists();
+
+                // Update the K-line chart
+                updateChart(order);
+
+                // Update the aggregated volumes
+                updateAggregatedVolumes(order);
+            } catch (error) {
+                console.error('Error processing message:', error, 'Message:', event.data);
+            }
+        };
+
+        function updateOrderLists() {
+            const buyOrderList = document.getElementById('buyOrderList');
+            const sellOrderList = document.getElementById('sellOrderList');
+
+            buyOrderList.innerHTML = '';
+            sellOrderList.innerHTML = '';
+
+            // Display the most recent 10 buy orders
+            for (const order of buyOrders) {
+                const orderElement = document.createElement('li');
+                orderElement.textContent = `Price: ${order.price}, Volume: ${order.volume}`;
+                buyOrderList.appendChild(orderElement);
+            }
+
+            // Display the most recent 10 sell orders
+            for (const order of sellOrders) {
+                const orderElement = document.createElement('li');
+                orderElement.textContent = `Price: ${order.price}, Volume: ${order.volume}`;
+                sellOrderList.appendChild(orderElement);
+            }
+        }
+
+        function updateChart(order) {
+            const timestamp = new Date(order.timestamp).getTime() / 1000;
+            const price = parseFloat(order.price);
+
+            if (chartData.length === 0 || chartData[chartData.length - 1].time < timestamp) {
+                // Create a new candle for the new timestamp
+                chartData.push({
+                    time: timestamp,
+                    open: price,
+                    high: price,
+                    low: price,
+                    close: price
+                });
+            } else {
+                // Update the current candle
+                const currentCandle = chartData[chartData.length - 1];
+                currentCandle.high = Math.max(currentCandle.high, price);
+                currentCandle.low = Math.min(currentCandle.low, price);
+                currentCandle.close = price;
+            }
+
+            candleSeries.setData(chartData);
+        }
+
+        function updateAggregatedVolumes(order) {
+            const timestamp = new Date(order.timestamp);
+            const volume = parseFloat(order.volume);
+
+            const minuteKey = `${timestamp.getUTCFullYear()}-${timestamp.getUTCMonth() + 1}-${timestamp.getUTCDate()} ${timestamp.getUTCHours()}:${timestamp.getUTCMinutes()}`;
+
+            if (!aggregatedVolumes[minuteKey]) {
+                aggregatedVolumes[minuteKey] = 0;
+            }
+            aggregatedVolumes[minuteKey] += volume;
+
+            // Update the displayed volumes
+            updateVolumeList();
+        }
+
+        function updateVolumeList() {
+            const volumeList = document.getElementById('volumeList');
+            volumeList.innerHTML = '';
+
+            // Display the aggregated volumes
+            const sortedKeys = Object.keys(aggregatedVolumes).sort((a, b) => new Date(b) - new Date(a));
+            for (const key of sortedKeys.slice(0, 10)) {
+                const volumeElement = document.createElement('li');
+                volumeElement.textContent = `Time: ${key}, Volume: ${aggregatedVolumes[key]}`;
+                volumeList.appendChild(volumeElement);
+            }
+        }
+
+        ws.onclose = function() {
+            console.log('WebSocket connection closed');
+        };
+
+        ws.onerror = function(error) {
+            console.log('WebSocket error:', error);
+        };
+
+        const chart = LightweightCharts.createChart(document.getElementById('chart-container'), {
+            width: document.getElementById('chart-container').offsetWidth,
+            height: 600,
+        });
+        const candleSeries = chart.addCandlestickSeries();
+        candleSeries.setData(chartData);
+
+        document.getElementById('timeframe').addEventListener('change', function() {
+            const timeframe = this.value;
+            chart.applyOptions({
+                timeScale: {
+                    timeVisible: true,
+                    secondsVisible: timeframe === '1'
+                }
+            });
+        });
+    </script>
+</body>
+</html>

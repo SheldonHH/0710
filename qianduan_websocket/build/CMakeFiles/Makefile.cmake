@@ -63,4 +63,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/client.dir/DependInfo.cmake"
   "CMakeFiles/server.dir/DependInfo.cmake"
+  "CMakeFiles/batch_clients_single.dir/DependInfo.cmake"
+  "CMakeFiles/batch_clients_future_async.dir/DependInfo.cmake"
+  "CMakeFiles/batch_clients_threadPool.dir/DependInfo.cmake"
   )
